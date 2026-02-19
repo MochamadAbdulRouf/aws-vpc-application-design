@@ -74,3 +74,21 @@ This is AWS VPC Topology
 | App| 0.0.0.0/0 | Nat Gateway |
 | Database | 0.0.0.0/0 | Nat Gateway |
 | Management | 0.0.0.0/0 | Nat Gateway |
+
+## DB NACL (Inbound Rules)
+
+| Rule Number | Type | Protocol | Port Range | Source IP | Allow / Deny |
+| --- | --- | --- | --- | --- | --- |
+| 100 | Custom TCP | TCP | 3306 | 10.0.4.0/24 | Allow |
+| 110 | Custom TCP | TCP | 3306 | 10.0.5.0/24 | Allow |
+| 120 | Custom TCP | TCP | 3306 | 10.0.6.0/24 | Allow |
+| * | All Traffic | All | All | All | Deny |
+
+## DB NACL (Outbound Rules)
+
+| Rule Number | Type | Protocol | Destination IP | Source IP | Allow / Deny |
+| --- | --- | --- | --- | --- | --- |
+| 100 | Custom TCP | TCP | 3306 | 10.0.7.0/24 | Allow |
+| 110 | Custom TCP | TCP | 3306 | 10.0.8.0/24 | Allow |
+| 120 | Custom TCP | TCP | 3306 | 10.0.9.0/24 | Allow |
+| * | All Traffic | All | All | All | Deny |
