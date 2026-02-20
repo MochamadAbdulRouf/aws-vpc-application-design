@@ -138,5 +138,6 @@ VPC Interface and Gateway enpoints lets you connect to AWS Managed services like
 ![en](./images/endpoin7.png)
 ![en](./images/endpoin8.png)
 ![en](./images/endpoin9.png)
-![en](./images/endpoin-cw.png)
-![en](./images/endpoinsm.png)
+![en](./images/enpoin-cw.png)
+![en](./images/enpoin-sm.png)
+![en](./images/enpoin-s3.png)
