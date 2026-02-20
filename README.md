@@ -92,3 +92,51 @@ This is AWS VPC Topology
 | 110 | Custom TCP | TCP | 3306 | 10.0.8.0/24 | Allow |
 | 120 | Custom TCP | TCP | 3306 | 10.0.9.0/24 | Allow |
 | * | All Traffic | All | All | All | Deny |
+
+## VPC Endpoints 
+VPC Interface and Gateway enpoints lets you connect to AWS Managed services like s3, Secrets Manager, CloudWatch, etc. Privately using AWS Privatelink.
+
+### Here is an AWS official image for refrence 
+![aws-off](./images/image-37-22.png)
+
+## Implementation the Projects
+
+1. First, Create a VPC
+![vpc](./images/vpc.png)
+
+2. Create 15 subnet
+![subnet](./images/subnet.png)
+
+3. Enable auto-asign public ipv4 address on public subnet `Web`
+![sub-web](./images/subnet-web.png)
+
+4. Create internet gateway and attach to vpc
+![igw](./images/igw.png)
+
+5. Create nat gateway
+![ngw](./images/ngw.png)
+
+6. Create rtb public and private, Add route internet gateway for `rtb-public` and nat gateway for `rtb-private`
+![rtb-pub](./images/rtb-public-routes.png)
+![rtb-pv](./images/rtb-private-routes.png)
+
+7. Edit subnet associations for rtb-public and rtb-private, fill in public subnet for rtb-public and private subnet for rtb-private
+![rtb-sc](./images/rtb-public-sc.png)
+![rtb-sc](./images/rtb-private-sc.png)
+
+8. Create NACL Service like the photo below, this is crated inbound and outbound rules for the subnet prefrence can acces the database.
+![nacl](./images/ncl-inbound.png)
+![nacl](./images/ncl-outbound.png)
+
+9. To create a VPC endpoint like this, follow the tutorial.
+![en](./images/endpoin1.png)
+![en](./images/endpoin2.png)
+![en](./images/endpoin3.png)
+![en](./images/endpoin4.png)
+![en](./images/endpoin5.png)
+![en](./images/endpoin6.png)
+![en](./images/endpoin7.png)
+![en](./images/endpoin8.png)
+![en](./images/endpoin9.png)
+![en](./images/endpoin-cw.png)
+![en](./images/endpoinsm.png)
