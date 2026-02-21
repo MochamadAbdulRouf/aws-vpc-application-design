@@ -54,5 +54,52 @@ resource "aws_network_acl" "db_nacl" {
     action = allow
   }
 
+  tags = {
+    Name = "Prod-DB-NACL"
+  }
+}
 
+resource "aws_security_group" "vpce_sg" {
+  name = "vpce_sg"
+  description = "Allow TLS inbound traffic for vpc EndPoints"
+  vpc_id = module.vpc.vpc_id
+
+  ingress {
+    from_port = 443
+    to_port = 443
+    protocol = "tcp"
+    cidr_blocks = [var.vpc_cidr]
+  }
+
+  egress {
+    from_port = 0
+    to_port = 0
+    protocol = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_vpc_endpoint" "s3" {
+  vpc_id = module.vpc.vpc_id
+  service_name = "com.amazonaws.us-west-2.s3"
+  vpc_endpoint_type = "Gateway"
+  route_table_ids = module.vpc.private_route_table_ids
+}
+
+resource "aws_vpc_endpoint" "secretsmanager" {
+  vpc_id = module.vpc.vpc_id
+  service_name = "com.amazonaws.us-west-2.secretsmanager"
+  vpc_endpoint_type = "Interface"
+  subnet_ids = slice(module.vpc.private_subnets, 0, 3)
+  security_group_ids = [aws_security_group.vpce_sg.id]
+  private_dns_enabled = true
+}
+
+resource "aws_vpc_endpoint" "cloudwatch" {
+  vpc_id = module.vpc.vpc_id
+  service_name = "com.amazonaws.us-west-2.logs"
+  vpc_endpoint_type = "Interface"
+  subnet_ids = slice(module.vpc.private_subnets, 0, 3)
+  security_group_ids = [aws_security_group.vpce_sg.id]
+  private_dns_enabled = true
 }
